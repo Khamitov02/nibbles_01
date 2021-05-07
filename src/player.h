@@ -13,112 +13,6 @@
 #include "game_map2.h"
 #include <sstream>
 
-/*
-class Igrok {
-
-
-public:
-
-    float x, y;
-    float  w, h, dx, dy, speed;
-    int dir, score, bubble, health,ss;
-    bool life;
-    String File;
-    Image image;
-    Texture texture;
-    Sprite sprite;
-    Igrok(String F, float X, float Y, float W, float H) {
-        dx = 0; dy = 0; speed = 0; dir = 0; score = 0; health = 5; bubble = 0; ss = 0;
-        bool life;
-        File = F;
-        w = W; h = H;
-        image.loadFromFile("images/" + File);
-        image.createMaskFromColor(Color(41, 33, 59));
-        texture.loadFromImage(image);
-        sprite.setTexture(texture);
-        x = X; y = Y;
-        sprite.setTextureRect(IntRect(0, 0, w, h));
-    }
-
-    void update(float time)
-    {
-        if (health <= 0) { life = false; speed = 0; }
-        switch (dir)
-        {
-            case 0: dx = speed; dy = 0; break;
-            case 1: dx = -speed; dy = 0; break;
-            case 2: dx = 0; dy = speed; break;
-            case 3: dx = 0; dy = -speed; break;
-        }
-
-        x += dx * time;
-        y += dy * time;
-        interactionWithMap();
-        if (bubble != 1)
-            speed = 0;
-
-        sprite.setPosition(x, y);
-
-        if (health <= 0) { life = false; speed = 0; }
-    }
-
-    void interactionWithMap()
-    {
-
-        for (int i = y / 32; i < (y + h) / 32; i++)
-            for (int j = x / 32; j < (x + w) / 32; j++)
-            {
-                if (TMap[i][j] == '0' || TMap[i][j] == 'k')
-                {
-                    if (dy > 0)
-                    {
-                        y = i * 32 - h;
-                    }
-                    if (dy < 0)
-                    {
-                        y = i * 32 + 32;
-                    }
-                    if (dx > 0)
-                    {
-                        x = j * 32 - w;
-                    }
-                    if (dx < 0)
-                    {
-                        x = j * 32 + 32;
-                    }
-                }
-
-                if (TMap[i][j] == 's')
-                {
-                    score++;
-                    ss++;
-                    health = health + 1 - 1;
-                    TMap[i][j] = ' ';
-                }
-                if (TMap[i][j] == 'l')
-                {
-                    health -= 1;
-                    TMap[i][j] = ' ';
-                }
-                if (TMap[i][j] == 'r')
-                {
-                    health += score;
-                    score = 0;
-
-
-                }
-                bubble = 0;
-                if (TMap[i][j] == 'f')
-                {
-                    bubble = 1;
-
-
-                }
-
-            }
-    }
-};
-*/
 
 
 class Player :public Personages {
@@ -200,11 +94,11 @@ class Player :public Personages {
                             this->y = i * 32 - this->h;
                             this->dy = 0;
                             this->onGround = true;
-                        }//по Y вниз=>идем в пол(стоим на месте) или падаем. В этот момент надо вытолкнуть персонажа и поставить его на землю, при этом говорим что мы на земле тем самым снова можем прыгать
+                        }
                         if (Dy < 0) {
                             this->y = i * 32 + 32;
                             this->dy = 0;
-                        }//столкновение с верхними краями карты(может и не пригодиться)
+                        }
                         if (Dx > 0) { this->x = j * 32 - this->w; }//с правым краем карты
                         if (Dx < 0) { this->x = j * 32 + 32; }// с левым краем карты
                     }
@@ -225,10 +119,10 @@ class Player :public Personages {
                 }
                 else if (I==2){
 
-                        if (map2::TMap[i][j] == '0'||map2::TMap[i][j] == 't'|| map2::TMap[i][j] == 'k' )//если элемент наш тайлик земли? то
+                        if (map2::TMap[i][j] == '0'||map2::TMap[i][j] == 't'|| map2::TMap[i][j] == 'k' )
                         {
-                            if (Dy>0){ this->y = i * 32 - this->h;  this->dy = 0; this->onGround = true; }//по Y вниз=>идем в пол(стоим на месте) или падаем. В этот момент надо вытолкнуть персонажа и поставить его на землю, при этом говорим что мы на земле тем самым снова можем прыгать
-                            if (Dy<0){ this->y = i * 32 + 32;  this->dy = 0; }//столкновение с верхними краями карты(может и не пригодиться)
+                            if (Dy>0){ this->y = i * 32 - this->h;  this->dy = 0; this->onGround = true; }
+                            if (Dy<0){ this->y = i * 32 + 32;  this->dy = 0; }
                             if (Dx>0){ this->x = j * 32 - this->w; }//с правым краем карты
                             if (Dx<0){ this->x = j * 32 + 32; }// с левым краем карты
                         }
@@ -252,7 +146,7 @@ class Player :public Personages {
             }
 
 
-                //else { onGround = false; }//надо убрать т.к мы можем находиться и на другой поверхности или платформе которую разрушит враг
+
             }
     }
     void set_proverka(){
@@ -281,24 +175,21 @@ class Player :public Personages {
                     CurrentFrame += 0.009 * time;
                     if (CurrentFrame > 4) CurrentFrame = 0;
                     this->sprite.setTextureRect(IntRect(32 * int(CurrentFrame), 144, 32, 48));
-                    //будет состояние поднятия наверх (например по лестнице)
 
-                break;//будет состояние во время спуска персонажа (например по лестнице)
+
+                break;
                 case stay:
                     this->sprite.setTextureRect(IntRect(32 * int(0), 0, 32, 48));
-                    break;//и здесь тоже
+                    break;
             }
             x += dx*time;
             checkCollisionWithMap(dx, 0,i);//обрабатываем столкновение по Х
             y += dy*time;
-            checkCollisionWithMap(0, dy,i);
-
-            //checkCollisionWithMap();//обрабатываем столкновение по Y
+            checkCollisionWithMap(0, dy,i);//обрабатываем столкновение по Y
             sprite.setPosition(x+w/2 , y +h/2); //задаем позицию спрайта в место его центра
             if (health <= 0){ life = false; }
             if (!isMove){ speed = 0; }
-            //if (!onGround) { dy = dy + 0.0015*time; }//убираем и будем всегда притягивать к земле
-            //if (life) { setPlayerCoordinateForView(x, y); }
+
             dy = dy + 0.0015*time;//постоянно притягиваемся к земле
         }
         const int get_life() final{

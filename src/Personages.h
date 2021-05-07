@@ -15,11 +15,8 @@
 using namespace sf;
 class Personages {
 protected:
-    //struct FloatRect {
-      //  float x1,y1,w1,h1;
 
-   // };
-    float dx, dy, x, y, speed,moveTimer;//добавили переменную таймер для будущих целей
+    float dx, dy, x, y, speed,moveTimer;
     int w,h,health;
     bool life, isMove, onGround;
     Texture texture;
